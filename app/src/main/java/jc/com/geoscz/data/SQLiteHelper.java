@@ -4,6 +4,8 @@ import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
 
+import jc.com.geoscz.global.Global;
+
 /**
  * Created by PERSONAL on 07/05/2016.
  */
@@ -23,6 +25,12 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.execSQL(DALCategoria.CREATE_TABLA);
         db.execSQL(DALActEco.CREATE_TABLA);
         db.execSQL(DALPredio.CREATE_TABLA);
+        db.execSQL(DALDistrito.CREATE_TABLA);
+        db.execSQL(DALUvs.CREATE_TABLA);
+
+        db.execSQL(Global.queryDistrito);
+        db.execSQL(Global.queryUvs);
+
     }
 
     @Override
@@ -31,10 +39,14 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.execSQL("DROP TABLE IF EXISTS "+DALCategoria.TABLA);
         db.execSQL("DROP TABLE IF EXISTS "+DALActEco.TABLA);
         db.execSQL("DROP TABLE IF EXISTS "+ DALPredio.TABLA);
+        db.execSQL("DROP TABLE IF EXISTS "+DALDistrito.TABLA);
+        db.execSQL("DROP TABLE IF EXISTS "+ DALUvs.TABLA);
 
         db.execSQL(DALCategoria.CREATE_TABLA);
         db.execSQL(DALActEco.CREATE_TABLA);
         db.execSQL(DALPredio.CREATE_TABLA);
+        db.execSQL(DALDistrito.CREATE_TABLA);
+        db.execSQL(DALUvs.CREATE_TABLA);
     }
 
     public SQLiteDatabase beginTransaction(){
