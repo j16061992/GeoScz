@@ -7,12 +7,15 @@ import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
 import android.support.v4.app.Fragment;
+import android.support.v7.widget.LinearLayoutManager;
+import android.support.v7.widget.RecyclerView;
 import android.util.Log;
 import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
 import android.widget.RelativeLayout;
+import android.widget.TextView;
 
 
 import com.google.android.gms.common.ConnectionResult;
@@ -30,7 +33,11 @@ import com.google.android.gms.maps.model.Marker;
 import com.google.android.gms.maps.model.MarkerOptions;
 import com.google.android.gms.maps.model.PolygonOptions;
 
+import java.util.LinkedList;
+import java.util.List;
+
 import jc.com.geoscz.R;
+import jc.com.geoscz.adapters.AdapterDistrito;
 
 public class MapFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -39,6 +46,8 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     protected LocationRequest mLocationRequest;
     View view;
 
+    public AdapterDistrito adapterDistrito;
+    RecyclerView recList;;
 
     public MapFragment() {
         // Required empty public constructor
@@ -53,14 +62,23 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             if (parent != null)
                 parent.removeView(view);
         }
-
-//        try {
+        try {
             view = (RelativeLayout) inflater.inflate(R.layout.fragment_map, container, false);
             setUpMapIfNeeded();
             buildGoogleApiClient();
-//        }catch (InflateException e) {
+        }catch (InflateException e) {
             /* map is already there, just return view as it is */
-//        }
+        }
+
+        recList = (RecyclerView) view.findViewById(R.id.fragment_distritos_cardList);
+        recList.setHasFixedSize(true);
+        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
+        llm.setOrientation(LinearLayoutManager.VERTICAL);
+        recList.setLayoutManager(llm);
+
+
+        adapterDistrito = new AdapterDistrito(getActivity());
+        recList.setAdapter(adapterDistrito);
 
 
         return view;
@@ -135,22 +153,32 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     public void onLocationChanged(Location location) {
         Log.i("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ", "" + location.getAltitude() + " --- " + location.getLongitude());
 //        adicionarMarcadorMapa(location.getLatitude(), location.getLongitude());
-        adicionarMarcadorMapa(-17.72618,-63.14272);
+        adicionarMarcadorMapa(-17.72618, -63.14272);
 
-        PolygonOptions rectangulo = new PolygonOptions()
-                .add(new LatLng(-17.72618,-63.14272),
-                        new LatLng(-17.72635,-63.14283),
-                        new LatLng(-17.72617,-63.14311),
-                        new LatLng(-17.72593,-63.14295),
-                        new LatLng(-17.72606,-63.14275));
+        List<LatLng> listaPuntos = new LinkedList<>();
+        listaPuntos.add(new LatLng(-17.72618,-63.14272));
+        listaPuntos.add(new LatLng(-17.72635,-63.14283));
+        listaPuntos.add(new LatLng(-17.72617,-63.14311));
+        listaPuntos.add(new LatLng(-17.72593,-63.14295));
+        listaPuntos.add(new LatLng(-17.72606,-63.14275));
 
-        rectangulo.strokeWidth(2);
-        rectangulo.strokeColor(Color.RED);
-
-        mMap.addPolygon(rectangulo);
+        dibujarPoligono(listaPuntos, Color.RED, 2);
 
         detenerGPS();
 
+    }
+
+    private void dibujarPoligono(List<LatLng> listaPuntos,int color,int grosor) {
+        PolygonOptions rectangulo = new PolygonOptions();
+
+        for (int i=0 ;i<listaPuntos.size();i++){
+            rectangulo.add(listaPuntos.get(i));
+        }
+
+        rectangulo.strokeWidth(grosor);
+        rectangulo.strokeColor(color);
+
+        mMap.addPolygon(rectangulo);
     }
 
     @Override

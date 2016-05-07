@@ -3,12 +3,109 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent" >
 
-    <fragment
-        android:id="@+id/location_map"
+    <LinearLayout
+        android:layout_width="fill_parent"
+        android:layout_height="fill_parent">
+        <fragment
+            android:id="@+id/location_map"
+            android:layout_width="fill_parent"
+            android:layout_height="fill_parent"
+            class="com.google.android.gms.maps.SupportMapFragment"
+            android:layout_alignParentTop="true" />
+    </LinearLayout>
+
+    <LinearLayout
         android:layout_width="fill_parent"
         android:layout_height="fill_parent"
-        class="com.google.android.gms.maps.SupportMapFragment"
-        android:layout_alignParentTop="true" />
+        android:orientation="vertical">
+        <LinearLayout
+            android:layout_width="fill_parent"
+            android:layout_height="0dp"
+            android:layout_weight="9">
+
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2">
+
+                    <ImageButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/eye" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="13">
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/fragment_distritos_cardList"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"/>
+                </LinearLayout>
+
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="6">
+            </LinearLayout>
+            <LinearLayout
+                android:layout_width="0dp"
+                android:layout_height="fill_parent"
+                android:layout_weight="1"
+                android:orientation="vertical">
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="1"/>
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="2">
+
+                    <ImageButton
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"
+                        android:background="@null"
+                        android:scaleType="centerInside"
+                        android:src="@drawable/eye" />
+
+                </LinearLayout>
+
+                <LinearLayout
+                    android:layout_width="fill_parent"
+                    android:layout_height="0dp"
+                    android:layout_weight="13">
+
+                    <android.support.v7.widget.RecyclerView
+                        android:id="@+id/fragment_uvs_cardList"
+                        android:layout_width="fill_parent"
+                        android:layout_height="fill_parent"/>
+
+                </LinearLayout>
+
+
+            </LinearLayout>
+
+        </LinearLayout>
+
+    </LinearLayout>
+
 
 
 </RelativeLayout>

@@ -1,4 +1,4 @@
-package jc.com.geoscz;
+package jc.com.geoscz.iu;
 
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
@@ -8,9 +8,11 @@ import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
+import jc.com.geoscz.R;
 import jc.com.geoscz.fragments.EstadisticaFragment;
 import jc.com.geoscz.fragments.MainFragment;
 import jc.com.geoscz.fragments.MapFragment;
+import jc.com.geoscz.threads.ThreadDistritos;
 
 public class MainActivity extends AppCompatActivity {
 
@@ -40,6 +42,8 @@ public class MainActivity extends AppCompatActivity {
             @Override
             public void onClick(View v) {
                 replaceFragment(FRAGMENT_ESTADISTICA);
+                ThreadDistritos threadDistritos=new ThreadDistritos(MainActivity.this);
+                threadDistritos.execute();
             }
         });
     }

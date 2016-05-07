@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/bright_foreground_material_light">
+    android:background="@color/accent_material_light">
 
 
     <LinearLayout
@@ -15,7 +15,7 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="7">
+            android:layout_weight="9">
             <FrameLayout
                 android:id="@+id/fragment"
                 android:layout_width="match_parent"
@@ -93,5 +93,6 @@
         </LinearLayout>
 
     </LinearLayout>
+
 
 </RelativeLayout>
