@@ -1,6 +1,8 @@
 package jc.com.geoscz.fragments;
 
 import android.app.Activity;
+import android.graphics.Bitmap;
+import android.graphics.Color;
 import android.location.Location;
 import android.net.Uri;
 import android.os.Bundle;
@@ -18,9 +20,15 @@ import com.google.android.gms.common.api.GoogleApiClient;
 import com.google.android.gms.location.LocationListener;
 import com.google.android.gms.location.LocationRequest;
 import com.google.android.gms.location.LocationServices;
+import com.google.android.gms.maps.CameraUpdate;
+import com.google.android.gms.maps.CameraUpdateFactory;
 import com.google.android.gms.maps.GoogleMap;
 import com.google.android.gms.maps.SupportMapFragment;
+import com.google.android.gms.maps.model.BitmapDescriptorFactory;
+import com.google.android.gms.maps.model.LatLng;
 import com.google.android.gms.maps.model.Marker;
+import com.google.android.gms.maps.model.MarkerOptions;
+import com.google.android.gms.maps.model.PolygonOptions;
 
 import jc.com.geoscz.R;
 
@@ -125,12 +133,37 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
 
     @Override
     public void onLocationChanged(Location location) {
-        Log.i("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ",""+location.getAltitude()+" --- "+location.getLongitude());
+        Log.i("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ", "" + location.getAltitude() + " --- " + location.getLongitude());
+//        adicionarMarcadorMapa(location.getLatitude(), location.getLongitude());
+        adicionarMarcadorMapa(-17.72618,-63.14272);
+
+        PolygonOptions rectangulo = new PolygonOptions()
+                .add(new LatLng(-17.72618,-63.14272),
+                        new LatLng(-17.72635,-63.14283),
+                        new LatLng(-17.72617,-63.14311),
+                        new LatLng(-17.72593,-63.14295),
+                        new LatLng(-17.72606,-63.14275));
+
+        rectangulo.strokeWidth(2);
+        rectangulo.strokeColor(Color.RED);
+
+        mMap.addPolygon(rectangulo);
+
+        detenerGPS();
+
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i("onConnectionFailed", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
-
+    }
+    private void adicionarMarcadorMapa(double latitude, double longitude) {
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Mi posición actual");
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        // adding marker
+        mMap.clear();
+        mMap.addMarker(marker);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16F);
+        mMap.animateCamera(cu);
     }
 }
