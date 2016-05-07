@@ -38,6 +38,9 @@ import java.util.List;
 
 import jc.com.geoscz.R;
 import jc.com.geoscz.adapters.AdapterDistrito;
+import jc.com.geoscz.adapters.AdapterUvs;
+import jc.com.geoscz.entity.Distrito;
+import jc.com.geoscz.entity.Uvs;
 
 public class MapFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener {
 
@@ -47,10 +50,17 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     View view;
 
     public AdapterDistrito adapterDistrito;
-    RecyclerView recList;;
+    public AdapterUvs adapterUvs;
+    RecyclerView recListDistrito;
+    RecyclerView recListUvs;
 
-    public MapFragment() {
+    List<Distrito> distritoList;
+    List<Uvs> uvsList;
+
+    public MapFragment(List<Distrito> distritoList,List<Uvs> uvsList) {
         // Required empty public constructor
+        this.distritoList = distritoList;
+        this.uvsList = uvsList;
     }
 
     @Override
@@ -70,15 +80,22 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             /* map is already there, just return view as it is */
         }
 
-        recList = (RecyclerView) view.findViewById(R.id.fragment_distritos_cardList);
-        recList.setHasFixedSize(true);
-        LinearLayoutManager llm = new LinearLayoutManager(getActivity());
-        llm.setOrientation(LinearLayoutManager.VERTICAL);
-        recList.setLayoutManager(llm);
+        recListDistrito = (RecyclerView) view.findViewById(R.id.fragment_distritos_cardList);
+        recListDistrito.setHasFixedSize(true);
+        LinearLayoutManager llmd = new LinearLayoutManager(getActivity());
+        llmd.setOrientation(LinearLayoutManager.VERTICAL);
+        recListDistrito.setLayoutManager(llmd);
+        adapterDistrito = new AdapterDistrito(getActivity(),distritoList);
+        recListDistrito.setAdapter(adapterDistrito);
 
 
-        adapterDistrito = new AdapterDistrito(getActivity());
-        recList.setAdapter(adapterDistrito);
+        recListUvs = (RecyclerView) view.findViewById(R.id.fragment_uvs_cardList);
+        recListUvs.setHasFixedSize(true);
+        LinearLayoutManager llmuv = new LinearLayoutManager(getActivity());
+        llmd.setOrientation(LinearLayoutManager.VERTICAL);
+        recListUvs.setLayoutManager(llmuv);
+        adapterUvs = new AdapterUvs(getActivity(),uvsList);
+        recListUvs.setAdapter(adapterUvs);
 
 
         return view;

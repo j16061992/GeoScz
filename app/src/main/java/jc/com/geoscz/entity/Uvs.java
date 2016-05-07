@@ -110,7 +110,7 @@ public class Uvs {
                 ", ET_UV='" + ET_UV + '\'' +
                 ", latitud=" + latitud +
                 ", longitud=" + longitud +
-                '}';
+                '}'+"\n";
     }
 
 }

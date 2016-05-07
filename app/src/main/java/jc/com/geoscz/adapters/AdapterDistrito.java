@@ -29,14 +29,13 @@ public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.Distri
     private Context context;
     int isNull=-1;
 
-    public AdapterDistrito(Context ctx) {
+    public AdapterDistrito(Context ctx,List<Distrito> distritoList) {
         this.context = ctx;
-        this.distritoList = new ArrayList<>();
-
-
-        distritoList.add(new Distrito(1,"aaa","aaaa","aaaa","aaaa"));
-        distritoList.add(new Distrito(1,"bbb","bbb","bbb","bbb"));
-        distritoList.add(new Distrito(1,"ccc","ccc","ccc","ccc"));
+        this.distritoList = distritoList;
+//        this.distritoList = new ArrayList<>();
+//        distritoList.add(new Distrito(1,"aaa","aaaa","aaaa","aaaa"));
+//        distritoList.add(new Distrito(1,"bbb","bbb","bbb","bbb"));
+//        distritoList.add(new Distrito(1,"ccc","ccc","ccc","ccc"));
 
 
     }

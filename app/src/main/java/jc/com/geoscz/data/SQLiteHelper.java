@@ -30,7 +30,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.execSQL(DALUvs.CREATE_TABLA);
 
         db.execSQL(Global.queryDistrito);
-//        db.execSQL(Global.queryUvs);
+        db.execSQL(Global.queryUvs);
+        db.execSQL(Global.queryCategoria);
         Log.d("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", "SE CREO LA DB");
     }
 
