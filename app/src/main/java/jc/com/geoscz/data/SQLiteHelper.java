@@ -3,6 +3,7 @@ package jc.com.geoscz.data;
 import android.content.Context;
 import android.database.sqlite.SQLiteDatabase;
 import android.database.sqlite.SQLiteOpenHelper;
+import android.util.Log;
 
 import jc.com.geoscz.global.Global;
 
@@ -29,8 +30,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.execSQL(DALUvs.CREATE_TABLA);
 
         db.execSQL(Global.queryDistrito);
-        db.execSQL(Global.queryUvs);
-
+//        db.execSQL(Global.queryUvs);
+        Log.d("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", "SE CREO LA DB");
     }
 
     @Override

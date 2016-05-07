@@ -75,7 +75,7 @@ public class Distrito {
                 ", idTipo='" + idTipo + '\'' +
                 ", nombre='" + nombre + '\'' +
                 ", area='" + area + '\'' +
-                '}';
+                '}'+"\n";
     }
 
 }

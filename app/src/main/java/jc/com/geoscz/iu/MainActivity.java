@@ -9,6 +9,7 @@ import android.widget.FrameLayout;
 import android.widget.ImageButton;
 
 import jc.com.geoscz.R;
+import jc.com.geoscz.bussines.BLLDistrito;
 import jc.com.geoscz.fragments.EstadisticaFragment;
 import jc.com.geoscz.fragments.MainFragment;
 import jc.com.geoscz.fragments.MapFragment;
@@ -46,6 +47,9 @@ public class MainActivity extends AppCompatActivity {
                 threadDistritos.execute();
             }
         });
+
+        BLLDistrito bllDistrito= new BLLDistrito(MainActivity.this);
+        bllDistrito.imprimirDistritos();
     }
 
     public static final int FRAGMENT_DATOS = 1;

@@ -17,7 +17,7 @@ public class DALDistrito {
     private SQLiteDatabase db;
     public static final String TABLA = "Distrito";
     public static final String COLUMNAS = "idDistrito,OBJECTID,idTipo,nombre,area";
-    public static final String CREATE_TABLA = "CREATE TABLE " + TABLA + " (idCategoria integer,OBJECTID text,idTipo text,nombre text,area text)";
+    public static final String CREATE_TABLA = "CREATE TABLE " + TABLA + " (idDistrito integer,OBJECTID text,idTipo text,nombre text,area text)";
 
     public DALDistrito(SQLiteDatabase sqLiteDatabase) {
         db = sqLiteDatabase;

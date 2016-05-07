@@ -5,10 +5,10 @@ package jc.com.geoscz.global;
  */
 public class Global {
 
-    public static String queryDistrito = "INSERT INTO  Distrito VALUES (1,'1','1','Distrito uno','0.000000');\n" +
-            "INSERT INTO  Distrito VALUES (2,'2','2','Distrito dos','0.000000');\n" +
-            "INSERT INTO  Distrito VALUES (3,'3','3','Distrito tres','0.000000');\n" +
-            "INSERT INTO  Distrito VALUES (4,'4','6','Distrito seis','0.000000');\n" +
+    public static String queryDistrito = "INSERT INTO  Distrito VALUES (1,'1','1','Distrito uno','0.000000')" +
+            ",(2,'2','2','Distrito dos','0.000000')" +
+            ",(3,'3','3','Distrito tres','0.000000')" +
+            ",(4,'4','6','Distrito seis','0.000000');\n" +
             "INSERT INTO  Distrito VALUES (5,'5','5','Distrito cinco','0.000000');\n" +
             "INSERT INTO  Distrito VALUES (6,'6','7','Distrito siete','0.000000');\n" +
             "INSERT INTO  Distrito VALUES (7,'7','8','Distrito ocho','0.000000');\n" +
