@@ -2,34 +2,20 @@ package jc.com.geoscz.threads;
 
 import android.content.Context;
 import android.os.AsyncTask;
-import android.telephony.TelephonyManager;
 import android.util.Log;
 
-import org.apache.http.HttpEntity;
 import org.apache.http.HttpResponse;
-import org.apache.http.NameValuePair;
 import org.apache.http.client.HttpClient;
-import org.apache.http.client.entity.UrlEncodedFormEntity;
-import org.apache.http.client.methods.HttpGet;
 import org.apache.http.client.methods.HttpPost;
-import org.apache.http.entity.ByteArrayEntity;
 import org.apache.http.entity.StringEntity;
 import org.apache.http.impl.client.DefaultHttpClient;
-import org.apache.http.message.BasicNameValuePair;
-import org.apache.http.params.BasicHttpParams;
-import org.apache.http.params.HttpConnectionParams;
-import org.apache.http.params.HttpParams;
-import org.apache.http.util.EntityUtils;
+import org.json.JSONArray;
 import org.json.JSONObject;
 
 import java.io.BufferedReader;
 import java.io.IOException;
 import java.io.InputStream;
 import java.io.InputStreamReader;
-import java.util.ArrayList;
-import java.util.List;
-
-import jc.com.geoscz.R;
 
 /**
  * Created by cesar on 07-05-16.
@@ -46,22 +32,17 @@ public class ThreadDistritos extends AsyncTask {
     @Override
     protected Object doInBackground(Object[] params) {
 
-        Peticion peticion=new Peticion();
-        peticion.distrito=1111111;
-        peticion.uv=2222222;
-        peticion.subclase=33333333;
-        String serverUrl = "http://192.168.43.236:8080/comercial/rest/test";
+        String serverUrl = "http://192.168.43.200/Hackaton/service/getDistrito.php";
 
         InputStream inputStream = null;
-        String result = "";
         try {
             HttpClient httpclient = new DefaultHttpClient();
             HttpPost httpPost = new HttpPost(serverUrl);
             String json = "";
             JSONObject jsonObject = new JSONObject();
-            jsonObject.accumulate("distrito", peticion.distrito);
-            jsonObject.accumulate("uv", peticion.uv);
-            jsonObject.accumulate("4", peticion.subclase);
+            jsonObject.accumulate("distrito","AA");
+            jsonObject.accumulate("uv", "AA");
+            jsonObject.accumulate("4", "AA");
 
             json = jsonObject.toString();
 
@@ -76,13 +57,19 @@ public class ThreadDistritos extends AsyncTask {
             inputStream = httpResponse.getEntity().getContent();
 
             if(inputStream != null)
-                result = convertInputStreamToString(inputStream);
+                respuesta = convertInputStreamToString(inputStream);
             else
-                result = "Did not work!";
+                respuesta = "Did not work!";
 
-            Log.i("------------------------------------------------------Respuesta ThreadDistritos", result);
 
-        } catch (Exception e) {
+            JSONArray jArray = new JSONArray(respuesta);
+            for(int i=0; i<jArray.length(); i++){
+                JSONObject json_data = jArray.getJSONObject(i);
+
+                Log.i("log_tag", "****************************************************  latitud" + json_data.getDouble("latitud") +
+                                ", longitud" + json_data.getDouble("longitud")
+                );
+            }        } catch (Exception e) {
             Log.d("InputStream", e.getLocalizedMessage());
         }
 
@@ -102,19 +89,4 @@ public class ThreadDistritos extends AsyncTask {
 
     }
 
-    public class Peticion{
-
-        int distrito;
-        int uv;
-        int subclase;
-
-        @Override
-        public String toString() {
-            return "Peticion{" +
-                    "distrito=" + distrito +
-                    ", uv=" + uv +
-                    ", subclase=" + subclase +
-                    '}';
-        }
-    }
 }

@@ -23,6 +23,7 @@ package jc.com.geoscz.adapters;
 
         import jc.com.geoscz.R;
         import jc.com.geoscz.entity.Distrito;
+        import jc.com.geoscz.iclass.NotificaDistrito;
 
 
 public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.DistritoViewHolder> {
@@ -30,6 +31,7 @@ public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.Distri
     private List<Distrito> distritoList;
     private Context context;
     int isNull=-1;
+    NotificaDistrito notificaDistrito;
 
     public AdapterDistrito(Context ctx,List<Distrito> distritoList) {
         this.context = ctx;
@@ -42,6 +44,10 @@ public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.Distri
 
     }
 
+    public void add(NotificaDistrito notifica){
+        notificaDistrito = notifica;
+    }
+
     @Override
     public int getItemCount() {
         return distritoList.size();
@@ -52,15 +58,17 @@ public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.Distri
     public void onBindViewHolder(final AdapterDistrito.DistritoViewHolder distritoViewHolder, final int i) {
             distritoViewHolder.tv_adapter_distrito.setText(distritoList.get(i).getNombre());
             distritoViewHolder.rl_distritos.setOnClickListener(new View.OnClickListener() {
-            @Override
-            public void onClick(View v) {
-                if(distritoViewHolder.cb_distritos.isChecked()){
-                    distritoViewHolder.cb_distritos.setChecked(false);
-                }else {
-                    distritoViewHolder.cb_distritos.setChecked(true);
+                @Override
+                public void onClick(View v) {
+                    if (distritoViewHolder.cb_distritos.isChecked()) {
+                        distritoViewHolder.cb_distritos.setChecked(false);
+                    } else {
+                        distritoViewHolder.cb_distritos.setChecked(true);
+                        notificaDistrito.notificaDistrito(distritoList.get(i));
+                    }
                 }
-            }
-        });
+            });
+
     }
 
     @Override

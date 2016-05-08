@@ -96,7 +96,7 @@ public class MainActivity extends AppCompatActivity {
 //                PRINCIPAL = IUMAIN_HOME;
                 break;
             case FRAGMENT_MAP:
-                MapFragment mapFragment= new MapFragment(distritoList,uvsList);
+                MapFragment mapFragment= new MapFragment(MainActivity.this,distritoList,uvsList);
                 fragmentTransaction.replace(R.id.fragment, mapFragment);
 //                PRINCIPAL = IUMAIN_HOME;
                 break;

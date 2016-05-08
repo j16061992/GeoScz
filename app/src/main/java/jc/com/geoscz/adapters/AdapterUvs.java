@@ -17,6 +17,7 @@ import java.util.List;
 import jc.com.geoscz.R;
 import jc.com.geoscz.entity.Distrito;
 import jc.com.geoscz.entity.Uvs;
+import jc.com.geoscz.iclass.NotificaUv;
 
 
 public class AdapterUvs extends RecyclerView.Adapter<AdapterUvs.DistritoViewHolder> {
@@ -24,6 +25,7 @@ public class AdapterUvs extends RecyclerView.Adapter<AdapterUvs.DistritoViewHold
     private List<Uvs> uvsList;
     private Context context;
     int isNull=-1;
+    NotificaUv notificaUv;
 
     public AdapterUvs(Context ctx,List<Uvs> uvsList) {
         this.context = ctx;
@@ -45,12 +47,17 @@ public class AdapterUvs extends RecyclerView.Adapter<AdapterUvs.DistritoViewHold
                 public void onClick(View v) {
                     if(distritoViewHolder.cb_uvs.isChecked()){
                         distritoViewHolder.cb_uvs.setChecked(false);
+                        notificaUv.notificaUv(uvsList.get(i));
                     }else {
                         distritoViewHolder.cb_uvs.setChecked(true);
                     }
                 }
             });
 
+    }
+
+    public void add(NotificaUv notifi){
+        notificaUv = notifi;
     }
 
 
