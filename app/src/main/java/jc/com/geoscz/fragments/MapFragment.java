@@ -60,9 +60,13 @@ import java.util.List;
 import jc.com.geoscz.R;
 import jc.com.geoscz.adapters.AdapterDistrito;
 import jc.com.geoscz.adapters.AdapterUvs;
+import jc.com.geoscz.bussines.BLLPredio;
+import jc.com.geoscz.entity.Datos;
 import jc.com.geoscz.entity.Distrito;
 import jc.com.geoscz.entity.ListaCoordenadas;
+import jc.com.geoscz.entity.Predio;
 import jc.com.geoscz.entity.Uvs;
+import jc.com.geoscz.iclass.ActualizarDatos;
 import jc.com.geoscz.iclass.NotificaDistrito;
 import jc.com.geoscz.iclass.NotificaUv;
 import jc.com.geoscz.iclass.NotificarPredios;
@@ -86,7 +90,14 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     List<ListaCoordenadas> distritos;
     List<ListaCoordenadas> uvs;
     Context context;
-    Boolean buscarPredios = false;
+
+    BLLPredio bllPredio;
+
+    List<Predio> seleccionados;
+    List<Datos> datosList;
+
+    ActualizarDatos actualizarDatos;
+
 
     public MapFragment(Context context,List<Distrito> distritoList,List<Uvs> uvsList,Boolean buscarPre) {
         // Required empty public constructor
@@ -95,8 +106,11 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         distritos = new LinkedList<>();
         uvs = new LinkedList<>();
         uvs = new LinkedList<>();
+        seleccionados = new LinkedList<>();
+        datosList = new LinkedList<>();
         this.context = context;
-        buscarPredios = buscarPre;
+        bllPredio = new BLLPredio(context);
+        seleccionados = bllPredio.getAll();
     }
 
     @Override
@@ -135,14 +149,19 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         recListUvs.setAdapter(adapterUvs);
         adapterUvs.add(this);
 
-//        if(buscarPredios && MainActivity.OPCIONES_ELEGIDAS.size()>0){
-            System.out.println("---------------------------------------------------------------- Entro ");
-            ThreadPredios threadPredios = new ThreadPredios(context);
+        if(seleccionados.size()>0){
+            ThreadPredios threadPredios = new ThreadPredios(context,seleccionados);
             threadPredios.execute();
-//        }
+        }
+
+
 
 
         return view;
+    }
+
+    public void add(ActualizarDatos actualizarDatos1){
+        actualizarDatos = actualizarDatos1;
     }
 
 
@@ -220,7 +239,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     }
 
     private void dibujarPoligono(List<LatLng> listaPuntos,int color,int grosor) {
-        mMap.clear();
+//        mMap.clear();
 
         PolygonOptions rectangulo = new PolygonOptions();
         for (int i=0 ;i<listaPuntos.size();i++){
@@ -239,10 +258,10 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Mi posición actual");
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
         // adding marker
-        mMap.clear();
+//        mMap.clear();
         mMap.addMarker(marker);
-        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16F);
-        mMap.animateCamera(cu);
+//        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16F);
+//        mMap.animateCamera(cu);
     }
 
     @Override
@@ -296,6 +315,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                 Log.d("-------------------------------------------------------- RESPONDE  ",respuesta);
 
 
+
                 JSONArray jArray = new JSONArray(respuesta);
                 for(int i=0; i<jArray.length(); i++){
                     JSONObject json_data = jArray.getJSONObject(i);
@@ -321,7 +341,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
             distritos.add(new ListaCoordenadas(id,list));
-            dibujarPoligono(list, Color.GREEN, 2);
+            dibujarPoligono(list,Color.GREEN,5);
         }
 
 
@@ -334,12 +354,12 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
 
         String respuesta = "";
         Context context;
-        int id;
+        List<Predio> predios;
 
-        public ThreadPredios(Context context)
+        public ThreadPredios(Context context,List<Predio> predios)
         {
             this.context = context;
-            this.id = id;
+            this.predios= predios;
         }
 
 
@@ -348,24 +368,24 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         protected Void doInBackground(Void... params) {
             String serverUrl = "http://192.168.43.200/Hackaton/service/getPredios.php";
 
-            String a="";
+            String a="851101";
             String b="";
             String c="";
             String d="";
-            String f="";
+            String f="851104";
 
-            for (int i = 0; i < MainActivity.OPCIONES_ELEGIDAS.size(); i++) {
-
-//                System.out.println("****************************************************************************** "+MainActivity.OPCIONES_ELEGIDAS.get(i));
-                switch (i){
-                    case 0 : a =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
-                    case 1 : b =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
-                    case 2 : c =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
-                    case 3 : d =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
-                    case 4 : f =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
-                }
-
-            }
+//            for (int i = 0; i < list.size(); i++) {
+//
+////                System.out.println("****************************************************************************** "+MainActivity.OPCIONES_ELEGIDAS.get(i));
+//                switch (i){
+//                    case 0 : a =  list.get(i).getSubClase();break;
+//                    case 1 : b =  list.get(i).getSubClase();break;
+//                    case 2 : c =  list.get(i).getSubClase();break;
+//                    case 3 : d =  list.get(i).getSubClase();break;
+//                    case 4 : f =  list.get(i).getSubClase();break;
+//                }
+//
+//            }
 
 
             try {
@@ -380,6 +400,10 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                 parms.add(new BasicNameValuePair("f", f));
                 httpPost.setEntity(new UrlEncodedFormEntity(parms));
 
+
+
+
+
                 HttpResponse response = httpClient.execute(httpPost);
                 HttpEntity entity = response.getEntity();
 
@@ -391,6 +415,21 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
                 JSONArray jArray = new JSONArray(respuesta);
                 for(int i=0; i<jArray.length(); i++){
                     JSONObject json_data = jArray.getJSONObject(i);
+                    Datos dat=new Datos();
+                    dat.agua = json_data.getString("agua");
+                    dat.alc = json_data.getString("alc");
+                    dat.gas = json_data.getString("gas");
+                    dat.luz = json_data.getString("luz");
+                    dat.manzana = json_data.getString("manzana");
+                    dat.distrito = json_data.getString("distrito");
+                    dat.personas = json_data.getString("personas");
+                    dat.telfijo = json_data.getString("telfijo");
+                    dat.trabajadores = json_data.getString("trabajadores");
+                    dat.latitud = Double.parseDouble(json_data.getDouble("latitud") + "");
+                    dat.longitud =Double.parseDouble( json_data.getDouble("longitud")+"");
+
+                    datosList.add(dat);
+
 //                    list.add(new LatLng(json_data.getDouble("longitud"),json_data.getDouble("latitud")));
 //                Log.i("log_tag", "****************************************************  latitud" + json_data.getDouble("latitud") +
 //                                ", longitud" + json_data.getDouble("longitud")
@@ -412,6 +451,11 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         @Override
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
+
+            for (int i = 0; i < datosList.size(); i++) {
+                adicionarMarcadorMapa(datosList.get(i).getLongitud(),datosList.get(i).getLatitud());
+            }
+
 
         }
 
