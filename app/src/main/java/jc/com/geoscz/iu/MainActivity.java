@@ -12,6 +12,7 @@ import java.util.LinkedList;
 import java.util.List;
 
 import jc.com.geoscz.R;
+import jc.com.geoscz.bussines.BLLActEco;
 import jc.com.geoscz.bussines.BLLCategoria;
 import jc.com.geoscz.bussines.BLLDistrito;
 import jc.com.geoscz.bussines.BLLUvs;
@@ -73,6 +74,9 @@ public class MainActivity extends AppCompatActivity {
 
         BLLCategoria bllCategoria =new BLLCategoria(MainActivity.this);
         categoriaList = bllCategoria.getAll();
+
+        BLLActEco bllActEco =new BLLActEco(MainActivity.this);
+        bllActEco.getAll(1);
     }
 
     public static final int FRAGMENT_DATOS = 1;
@@ -87,7 +91,7 @@ public class MainActivity extends AppCompatActivity {
 
         switch (typeOfFragment) {
             case FRAGMENT_DATOS:
-                MainFragment mainFragment = new MainFragment(categoriaList,null);
+                MainFragment mainFragment = new MainFragment(MainActivity.this,categoriaList);
                 fragmentTransaction.replace(R.id.fragment, mainFragment);
 //                PRINCIPAL = IUMAIN_HOME;
                 break;

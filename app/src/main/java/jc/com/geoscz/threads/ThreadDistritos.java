@@ -61,7 +61,7 @@ public class ThreadDistritos extends AsyncTask {
             JSONObject jsonObject = new JSONObject();
             jsonObject.accumulate("distrito", peticion.distrito);
             jsonObject.accumulate("uv", peticion.uv);
-            jsonObject.accumulate("subclase", peticion.subclase);
+            jsonObject.accumulate("4", peticion.subclase);
 
             json = jsonObject.toString();
 

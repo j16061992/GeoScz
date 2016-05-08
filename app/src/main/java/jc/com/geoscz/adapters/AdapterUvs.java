@@ -6,7 +6,9 @@ import android.support.v7.widget.RecyclerView;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.CheckBox;
 import android.widget.ImageView;
+import android.widget.RelativeLayout;
 import android.widget.TextView;
 
 import java.util.ArrayList;
@@ -26,10 +28,6 @@ public class AdapterUvs extends RecyclerView.Adapter<AdapterUvs.DistritoViewHold
     public AdapterUvs(Context ctx,List<Uvs> uvsList) {
         this.context = ctx;
         this.uvsList = uvsList;
-//        this.uvsList = new ArrayList<>();
-//        uvsList.add(new Uvs(1,"aaaa","aaaa",8,"aaaa","aaaa",-63.2356,-36.115));
-//        uvsList.add(new Uvs(1,"bbbbb","bbbbb",8,"bbbbb","bbbbb",-63.2356,-36.115));
-//        uvsList.add(new Uvs(1,"cccc","cccc",8,"cccc","cccc",-63.2356,-36.115));
 
     }
 
@@ -40,9 +38,22 @@ public class AdapterUvs extends RecyclerView.Adapter<AdapterUvs.DistritoViewHold
 
 
     @Override
-    public void onBindViewHolder(AdapterUvs.DistritoViewHolder distritoViewHolder, final int i) {
+    public void onBindViewHolder(final AdapterUvs.DistritoViewHolder distritoViewHolder, final int i) {
             distritoViewHolder.tv_adapter_uvs.setText(uvsList.get(i).getET_UV());
+            distritoViewHolder.rl_uvs.setOnClickListener(new View.OnClickListener() {
+                @Override
+                public void onClick(View v) {
+                    if(distritoViewHolder.cb_uvs.isChecked()){
+                        distritoViewHolder.cb_uvs.setChecked(false);
+                    }else {
+                        distritoViewHolder.cb_uvs.setChecked(true);
+                    }
+                }
+            });
+
     }
+
+
 
     @Override
     public DistritoViewHolder onCreateViewHolder(ViewGroup viewGroup, int i) {
@@ -59,12 +70,16 @@ public class AdapterUvs extends RecyclerView.Adapter<AdapterUvs.DistritoViewHold
 
         protected ImageView iv_adapter_uvs;
         protected TextView tv_adapter_uvs;
+        protected CheckBox cb_uvs;
+        protected RelativeLayout rl_uvs;
 
 
         public DistritoViewHolder(View v) {
             super(v);
             iv_adapter_uvs = (ImageView) v.findViewById(R.id.iv_adapter_uvs);
             tv_adapter_uvs = (TextView) v.findViewById(R.id.tv_adapter_uvs);
+            cb_uvs = (CheckBox) v.findViewById(R.id.cb_uvs);
+            rl_uvs = (RelativeLayout) v.findViewById(R.id.rl_uvs);
         }
     }
 }

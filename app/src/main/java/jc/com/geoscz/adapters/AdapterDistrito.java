@@ -13,8 +13,10 @@ package jc.com.geoscz.adapters;
         import android.view.LayoutInflater;
         import android.view.View;
         import android.view.ViewGroup;
+        import android.widget.CheckBox;
         import android.widget.ImageView;
         import android.widget.LinearLayout;
+        import android.widget.RelativeLayout;
         import android.widget.TextView;
         import java.util.ArrayList;
         import java.util.List;
@@ -47,8 +49,18 @@ public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.Distri
 
 
     @Override
-    public void onBindViewHolder(AdapterDistrito.DistritoViewHolder distritoViewHolder, final int i) {
+    public void onBindViewHolder(final AdapterDistrito.DistritoViewHolder distritoViewHolder, final int i) {
             distritoViewHolder.tv_adapter_distrito.setText(distritoList.get(i).getNombre());
+            distritoViewHolder.rl_distritos.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                if(distritoViewHolder.cb_distritos.isChecked()){
+                    distritoViewHolder.cb_distritos.setChecked(false);
+                }else {
+                    distritoViewHolder.cb_distritos.setChecked(true);
+                }
+            }
+        });
     }
 
     @Override
@@ -66,12 +78,16 @@ public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.Distri
 
         protected ImageView iv_adapter_distrito_;
         protected TextView tv_adapter_distrito;
+        protected RelativeLayout rl_distritos;
+        protected CheckBox cb_distritos;
 
 
         public DistritoViewHolder(View v) {
             super(v);
             iv_adapter_distrito_ = (ImageView) v.findViewById(R.id.iv_adapter_distrito);
             tv_adapter_distrito = (TextView) v.findViewById(R.id.tv_adapter_distrito);
+            rl_distritos = (RelativeLayout) v.findViewById(R.id.rl_distritos);
+            cb_distritos = (CheckBox) v.findViewById(R.id.cb_distritos);
         }
     }
 }

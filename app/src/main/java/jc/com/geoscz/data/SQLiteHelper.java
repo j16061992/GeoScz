@@ -32,7 +32,8 @@ public class SQLiteHelper extends SQLiteOpenHelper{
         db.execSQL(Global.queryDistrito);
         db.execSQL(Global.queryUvs);
         db.execSQL(Global.queryCategoria);
-        Log.d("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", "SE CREO LA DB");
+        db.execSQL(Global.queryActEco);
+//        Log.d("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++", "SE CREO LA DB");
     }
 
     @Override

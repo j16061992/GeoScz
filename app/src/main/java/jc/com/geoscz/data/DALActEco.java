@@ -56,10 +56,13 @@ public class DALActEco {
         return res;
     }
 
-    public ArrayList<ActEco> getAll() {
-
+    public ArrayList<ActEco> getAll(int categoria) {
         ArrayList<ActEco> listCategoria = new ArrayList<>();
-        Cursor c = db.query(TABLA, null, null, null, null, null, null);
+
+        String whereClause = "idCategoriaFK = ?";
+        String[] whereArgs = new String[]{String.valueOf(categoria)};
+        Cursor c = db.query(TABLA, null, whereClause, whereArgs, null, null, null);
+//        Cursor c = db.query(TABLA, null, null, null, null, null, null);
         if (c.moveToFirst()) {
             do {
                 ActEco n = new ActEco();
@@ -74,7 +77,7 @@ public class DALActEco {
                 n.setIdCategoriaFK(c.getInt(c.getColumnIndex("idCategoriaFK")));
 
                 listCategoria.add(n);
-
+                Log.i("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++",n.toString());
             } while (c.moveToNext());
         }
         Log.i("get:", listCategoria.toString());
