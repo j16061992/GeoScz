@@ -28,7 +28,7 @@
                 android:layout_alignParentLeft="true"
                 android:layout_alignParentStart="true"
                 android:layout_alignParentTop="true"
-                android:src="@drawable/chek"/>
+                android:src="@mipmap/ic_salud"/>
 
             <LinearLayout
                 android:layout_width="fill_parent"

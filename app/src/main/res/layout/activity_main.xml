@@ -46,28 +46,26 @@
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="2"
-                    android:background="@color/wallet_bright_foreground_holo_dark">
+                    android:layout_weight="2">
                     <ImageButton
                         android:id="@+id/ImgBtnDatos"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:background="@null"
-                        android:scaleType="fitCenter"
-                        android:src="@drawable/chek" />
+                        android:scaleType="centerInside"
+                        android:src="@mipmap/ic_select" />
                 </LinearLayout>
                 <LinearLayout
                     android:layout_width="0dp"
                     android:layout_height="fill_parent"
-                    android:layout_weight="2"
-                    android:background="@color/wallet_bright_foreground_holo_dark">
+                    android:layout_weight="2">
                     <ImageButton
                         android:id="@+id/ImgBtnMapa"
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:background="@null"
                         android:scaleType="centerInside"
-                        android:src="@drawable/map" />
+                        android:src="@mipmap/ic_maps" />
                 </LinearLayout>
 
                 <LinearLayout
@@ -80,7 +78,7 @@
                         android:layout_height="fill_parent"
                         android:background="@null"
                         android:scaleType="centerInside"
-                        android:src="@drawable/estadistica" />
+                        android:src="@mipmap/ic_estadistica" />
                 </LinearLayout>
 
                 <LinearLayout
