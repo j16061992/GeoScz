@@ -11,8 +11,8 @@ public class Global {
                 "(4,'Industrial',' '),\n" +
                 "(5,'Deporte',' ');";
 
-        public static String queryActEco = "INSERT INTO ActEco VALUES(1,'','','','','52311','Venta al por menor de productos farmacéuticos y medicinales(hierbas,pomada, farmacias, Herbalife)',1),\n" +
-                "(2,'','','','','523111','Venta al por menor de productos farmaceuticos y medicinales en farmacias',1);";
+        public static String queryActEco = "INSERT INTO ActEco VALUES(1,'','','','','851101','Hospitales (nivel 1)',1),\n" +
+                "(2,'','','','','851101','Hospital',1);";
 
         public static String queryDistrito = "INSERT INTO Distrito VALUES(1,'1','1','D-1','0.000000'),\n" +
                 "(2,'2','2','D-2','0.000000'),\n" +
