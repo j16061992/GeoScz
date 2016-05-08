@@ -12,7 +12,10 @@ public class Global {
                 "(5,'Deporte',' ');";
 
         public static String queryActEco = "INSERT INTO ActEco VALUES(1,'','','','','851101','Hospitales (nivel 1)',1),\n" +
-                "(2,'','','','','851101','Hospital',1);";
+                "(2,'','','','','851102','Hospital (nivel 2)',1),\n"+
+                "(3,'','','','','851103','Hospital (nivel 3)',1),\n"+
+                "(4,'','','','','851104','Centros de Salud',1),\n"+
+                "(5,'','','','','851105','Postas',1)";
 
         public static String queryDistrito = "INSERT INTO Distrito VALUES(1,'1','1','D-1','0.000000'),\n" +
                 "(2,'2','2','D-2','0.000000'),\n" +

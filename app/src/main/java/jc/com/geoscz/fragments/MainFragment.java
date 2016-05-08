@@ -60,6 +60,8 @@ public class MainFragment extends Fragment {
                 parent.removeView(view);
         }
 
+        //
+
         view = (RelativeLayout) inflater.inflate(R.layout.fragment_main, container, false);
 
         recListCategoria = (RecyclerView) view.findViewById(R.id.cv_tipo);

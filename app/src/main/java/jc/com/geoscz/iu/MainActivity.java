@@ -77,6 +77,8 @@ public class MainActivity extends AppCompatActivity {
 
         BLLActEco bllActEco =new BLLActEco(MainActivity.this);
         bllActEco.getAll(1);
+
+        replaceFragment(FRAGMENT_MAP);
     }
 
     public static final int FRAGMENT_DATOS = 1;
