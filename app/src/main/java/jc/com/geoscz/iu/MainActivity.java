@@ -4,6 +4,7 @@ import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
 import android.os.Bundle;
+import android.util.Log;
 import android.view.View;
 import android.widget.FrameLayout;
 import android.widget.ImageButton;
@@ -22,9 +23,10 @@ import jc.com.geoscz.entity.Uvs;
 import jc.com.geoscz.fragments.EstadisticaFragment;
 import jc.com.geoscz.fragments.MainFragment;
 import jc.com.geoscz.fragments.MapFragment;
+import jc.com.geoscz.iclass.NotificarPredios;
 import jc.com.geoscz.threads.ThreadDistritos;
 
-public class MainActivity extends AppCompatActivity {
+public class MainActivity extends AppCompatActivity implements NotificarPredios{
 
     FragmentManager fragmentManager;
     ImageButton btn_datos,btn_map,btn_estadisticas;
@@ -32,6 +34,8 @@ public class MainActivity extends AppCompatActivity {
     List<Distrito> distritoList;
     List<Uvs> uvsList;
     List<Categoria> categoriaList;
+
+    public static List<String> OPCIONES_ELEGIDAS = new LinkedList<>();
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {
@@ -84,6 +88,7 @@ public class MainActivity extends AppCompatActivity {
     public static final int FRAGMENT_DATOS = 1;
     public static final int FRAGMENT_MAP = 2;
     public static final int FRAGMENT_ESTADISTICA = 3;
+    public static final int FRAGMENT_MAP_BUSCAR = 4;
 
     public void replaceFragment(int typeOfFragment) {
         FrameLayout frameLayout = (FrameLayout) findViewById(R.id.fragment);
@@ -94,21 +99,30 @@ public class MainActivity extends AppCompatActivity {
         switch (typeOfFragment) {
             case FRAGMENT_DATOS:
                 MainFragment mainFragment = new MainFragment(MainActivity.this,categoriaList);
+                mainFragment.add(this);
                 fragmentTransaction.replace(R.id.fragment, mainFragment);
 //                PRINCIPAL = IUMAIN_HOME;
                 break;
             case FRAGMENT_MAP:
-                MapFragment mapFragment= new MapFragment(MainActivity.this,distritoList,uvsList);
+                MapFragment mapFragment= new MapFragment(MainActivity.this,distritoList,uvsList,false);
                 fragmentTransaction.replace(R.id.fragment, mapFragment);
-//                PRINCIPAL = IUMAIN_HOME;
                 break;
             case FRAGMENT_ESTADISTICA:
                 EstadisticaFragment estadisticaFragment = new EstadisticaFragment();
                 fragmentTransaction.replace(R.id.fragment, estadisticaFragment);
-//                PRINCIPAL = IUMAIN_HOME;
+                break;
+            case FRAGMENT_MAP_BUSCAR:
+                MapFragment mapFragment1= new MapFragment(MainActivity.this,distritoList,uvsList,true);
+                fragmentTransaction.replace(R.id.fragment, mapFragment1);
                 break;
 
         }
         fragmentTransaction.commit();
+    }
+
+    @Override
+    public void notificaPredio() {
+        Log.d("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ","KKKKKK");
+        replaceFragment(FRAGMENT_MAP);
     }
 }

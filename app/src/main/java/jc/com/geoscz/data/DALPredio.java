@@ -17,7 +17,7 @@ public class DALPredio {
     private SQLiteDatabase db;
     public static final String TABLA = "Predio";
     public static final String COLUMNAS = "idPredio,latitud,longitud,idActEcoFK";
-    public static final String CREATE_TABLA = "CREATE TABLE " + TABLA + " (idPredio integer NOT NULL PRIMARY KEY AUTOINCREMENT,latitud double,longitud double,idActEcoFK integer)";
+    public static final String CREATE_TABLA = "CREATE TABLE " + TABLA + " (idPredio integer NOT NULL PRIMARY KEY AUTOINCREMENT,latitud double,longitud double,idActEcoFK integer,subClase text)";
 
     public DALPredio(SQLiteDatabase sqLiteDatabase) {
         db = sqLiteDatabase;
@@ -28,25 +28,19 @@ public class DALPredio {
         nuevoRegistro.put("latitud", predio.getLatitud());
         nuevoRegistro.put("longitud", predio.getLongitud());
         nuevoRegistro.put("idActEcoFK", predio.getIdActEcoFK());
+        nuevoRegistro.put("subClase", predio.getSubClase());
 
         long res = db.insert(TABLA, null, nuevoRegistro);
         Log.i("insert:", res + "|" + predio.toString());
         return res;
     }
 
-    public long update(Predio predio) {
-        String whereClause = "idPredio = ?";
-        String[] whereArgs = new String[] {predio.getIdPredio()+""};
 
-        ContentValues nuevoRegistro = new ContentValues();
-        nuevoRegistro.put("latitud", predio.getLatitud());
-        nuevoRegistro.put("longitud", predio.getLongitud());
-        nuevoRegistro.put("idActEcoFK", predio.getIdActEcoFK());
-
-        long res = db.update(TABLA, nuevoRegistro, whereClause, whereArgs);
-        Log.i("update:", res + "|" + predio.toString());
+    public long delete(String subclase) {
+        long res = db.delete(TABLA, "subClase=" + subclase, null);
         return res;
     }
+
 
     public ArrayList<Predio> getAll() {
 
@@ -60,6 +54,7 @@ public class DALPredio {
                 n.setLatitud(c.getDouble(c.getColumnIndex("latitud")));
                 n.setLongitud(c.getDouble(c.getColumnIndex("longitud")));
                 n.setIdActEcoFK(c.getInt(c.getColumnIndex("idActEcoFK")));
+                n.setSubClase(c.getString(c.getColumnIndex("subClase")));
 
                 listCategoria.add(n);
 

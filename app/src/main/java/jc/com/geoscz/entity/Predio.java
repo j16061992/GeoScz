@@ -8,12 +8,15 @@ public class Predio {
     private double latitud;
     private double longitud;
     private int idActEcoFK;
+    private String subClase;
+
 
     public Predio() {
         this.idPredio = -1;
         this.latitud = 0;
         this.longitud = 0;
         this.idActEcoFK = -1;
+        this.subClase = "";
     }
 
     public Predio(int idPredio, double latitud, double longitud ,int idActEcoFK) {
@@ -21,6 +24,8 @@ public class Predio {
         this.latitud = latitud;
         this.longitud = longitud;
         this.idActEcoFK = idActEcoFK;
+        this.subClase= "";
+
     }
 
     public int getIdPredio() {
@@ -55,6 +60,14 @@ public class Predio {
         this.idActEcoFK = idActEcoFK;
     }
 
+    public String getSubClase() {
+        return subClase;
+    }
+
+    public void setSubClase(String subClase) {
+        this.subClase = subClase;
+    }
+
     @Override
     public String toString() {
         return "Predio{" +
@@ -62,7 +75,7 @@ public class Predio {
                 ", latitud=" + latitud +
                 ", longitud=" + longitud +
                 ", idActEcoFK=" + idActEcoFK +
+                ", subClase='" + subClase + '\'' +
                 '}';
     }
-
 }

@@ -16,6 +16,7 @@ import android.view.InflateException;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -64,6 +65,8 @@ import jc.com.geoscz.entity.ListaCoordenadas;
 import jc.com.geoscz.entity.Uvs;
 import jc.com.geoscz.iclass.NotificaDistrito;
 import jc.com.geoscz.iclass.NotificaUv;
+import jc.com.geoscz.iclass.NotificarPredios;
+import jc.com.geoscz.iu.MainActivity;
 
 public class MapFragment extends Fragment implements GoogleApiClient.ConnectionCallbacks, GoogleApiClient.OnConnectionFailedListener, LocationListener,NotificaDistrito,NotificaUv {
 
@@ -83,8 +86,9 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     List<ListaCoordenadas> distritos;
     List<ListaCoordenadas> uvs;
     Context context;
+    Boolean buscarPredios = false;
 
-    public MapFragment(Context context,List<Distrito> distritoList,List<Uvs> uvsList) {
+    public MapFragment(Context context,List<Distrito> distritoList,List<Uvs> uvsList,Boolean buscarPre) {
         // Required empty public constructor
         this.distritoList = distritoList;
         this.uvsList = uvsList;
@@ -92,6 +96,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         uvs = new LinkedList<>();
         uvs = new LinkedList<>();
         this.context = context;
+        buscarPredios = buscarPre;
     }
 
     @Override
@@ -130,9 +135,17 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         recListUvs.setAdapter(adapterUvs);
         adapterUvs.add(this);
 
+//        if(buscarPredios && MainActivity.OPCIONES_ELEGIDAS.size()>0){
+            System.out.println("---------------------------------------------------------------- Entro ");
+            ThreadPredios threadPredios = new ThreadPredios(context);
+            threadPredios.execute();
+//        }
+
 
         return view;
     }
+
+
 
     private void setUpMapIfNeeded() {
         // Do a null check to confirm that we have not already instantiated the map.
@@ -201,19 +214,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
 
     @Override
     public void onLocationChanged(Location location) {
-//        Log.i("JJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJJ", "" + location.getAltitude() + " --- " + location.getLongitude());
-//        adicionarMarcadorMapa(location.getLatitude(), location.getLongitude());
-
-
-        adicionarMarcadorMapa(-17.72618, -63.14272);
-        List<LatLng> listaPuntos = new LinkedList<>();
-        listaPuntos.add(new LatLng(-17.72618,-63.14272));
-        listaPuntos.add(new LatLng(-17.72635,-63.14283));
-        listaPuntos.add(new LatLng(-17.72617,-63.14311));
-        listaPuntos.add(new LatLng(-17.72593,-63.14295));
-        listaPuntos.add(new LatLng(-17.72606,-63.14275));
-        dibujarPoligono(listaPuntos, Color.RED, 2);
-
+        adicionarMarcadorMapa(location.getLatitude(), location.getLongitude());
         detenerGPS();
 
     }
@@ -323,16 +324,98 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             dibujarPoligono(list, Color.GREEN, 2);
         }
 
-        private String convertInputStreamToString(InputStream inputStream) throws IOException {
-        BufferedReader bufferedReader = new BufferedReader( new InputStreamReader(inputStream));
-        String line = "";
-        String result = "";
-        while((line = bufferedReader.readLine()) != null)
-            result += line;
 
-        inputStream.close();
-        return result;
+    }
 
-    }}
+
+    //    ------------------------------------------------------TRAE PREDIOS------------------------------------------------------------------
+
+    public class ThreadPredios extends AsyncTask <Void, Void, Void>{
+
+        String respuesta = "";
+        Context context;
+        int id;
+
+        public ThreadPredios(Context context)
+        {
+            this.context = context;
+            this.id = id;
+        }
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String serverUrl = "http://192.168.43.200/Hackaton/service/getPredios.php";
+
+            String a="";
+            String b="";
+            String c="";
+            String d="";
+            String f="";
+
+            for (int i = 0; i < MainActivity.OPCIONES_ELEGIDAS.size(); i++) {
+
+//                System.out.println("****************************************************************************** "+MainActivity.OPCIONES_ELEGIDAS.get(i));
+                switch (i){
+                    case 0 : a =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
+                    case 1 : b =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
+                    case 2 : c =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
+                    case 3 : d =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
+                    case 4 : f =  MainActivity.OPCIONES_ELEGIDAS.get(i);break;
+                }
+
+            }
+
+
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+//
+                HttpPost httpPost = new HttpPost(serverUrl);
+                List<NameValuePair> parms = new ArrayList<NameValuePair>();
+                parms.add(new BasicNameValuePair("a", a));
+                parms.add(new BasicNameValuePair("b", b));
+                parms.add(new BasicNameValuePair("c", c));
+                parms.add(new BasicNameValuePair("d", d));
+                parms.add(new BasicNameValuePair("f", f));
+                httpPost.setEntity(new UrlEncodedFormEntity(parms));
+
+                HttpResponse response = httpClient.execute(httpPost);
+                HttpEntity entity = response.getEntity();
+
+                respuesta = EntityUtils.toString(entity);
+
+                Log.d("-------------------------------------------------------- RESPONDE  ",respuesta);
+
+
+                JSONArray jArray = new JSONArray(respuesta);
+                for(int i=0; i<jArray.length(); i++){
+                    JSONObject json_data = jArray.getJSONObject(i);
+//                    list.add(new LatLng(json_data.getDouble("longitud"),json_data.getDouble("latitud")));
+//                Log.i("log_tag", "****************************************************  latitud" + json_data.getDouble("latitud") +
+//                                ", longitud" + json_data.getDouble("longitud")
+//                );
+                }
+            } catch (Exception e) {
+                Log.d("InputStream", e.getLocalizedMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+
+        }
+
+
+    }
 
 }

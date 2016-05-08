@@ -77,10 +77,10 @@ public class DALActEco {
                 n.setIdCategoriaFK(c.getInt(c.getColumnIndex("idCategoriaFK")));
 
                 listCategoria.add(n);
-                Log.i("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++",n.toString());
+//                Log.i("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++",n.toString());
             } while (c.moveToNext());
         }
-        Log.i("get:", listCategoria.toString());
+        Log.i("**********************************************************************************************************************get:", listCategoria.toString());
 
         return listCategoria;
     }

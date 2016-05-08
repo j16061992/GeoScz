@@ -10,6 +10,7 @@ import android.util.Log;
 import android.view.LayoutInflater;
 import android.view.View;
 import android.view.ViewGroup;
+import android.widget.ImageButton;
 import android.widget.RelativeLayout;
 import android.widget.TextView;
 
@@ -23,6 +24,7 @@ import jc.com.geoscz.bussines.BLLActEco;
 import jc.com.geoscz.entity.ActEco;
 import jc.com.geoscz.entity.Categoria;
 import jc.com.geoscz.global.RecyclerItemClickListener;
+import jc.com.geoscz.iclass.NotificarPredios;
 
 
 public class MainFragment extends Fragment {
@@ -38,6 +40,9 @@ public class MainFragment extends Fragment {
     List<ActEco> actEcoList;
 
     BLLActEco bllActEco;
+
+    NotificarPredios notificarPredios;
+    ImageButton ibtn_calcular;
 
     public MainFragment(Context context,List<Categoria> categoriaList) {
         // Required empty public constructor
@@ -85,10 +90,10 @@ public class MainFragment extends Fragment {
 
             @Override
             public void onItemClick(View view, int position) {
-                Log.d("*************************************************************  ", categoriaList.get(position).toString());
+//                Log.d("************************************************************* ", categoriaList.get(position).toString());
 
                 actEcoList = bllActEco.getAll(categoriaList.get(position).getIdCategoria());
-                adapterSocioEconomico = new AdapterSocioEconomico(getActivity(),actEcoList);
+                adapterSocioEconomico = new AdapterSocioEconomico(getActivity(), actEcoList);
                 recListSocioEco.setAdapter(adapterSocioEconomico);
             }
 
@@ -98,9 +103,21 @@ public class MainFragment extends Fragment {
             }
         }));
 
+        ibtn_calcular = (ImageButton) view.findViewById(R.id.ibtn_calcular);
+        ibtn_calcular.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+                notificarPredios.notificaPredio();
+            }
+        });
+
 
         // Inflate the layout for this fragment
         return view;
+    }
+
+    public void add(NotificarPredios notificarPredios){
+        this.notificarPredios = notificarPredios;
     }
 
 
