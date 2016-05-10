@@ -45,8 +45,8 @@ public class AdapterSocioEconomico extends RecyclerView.Adapter<AdapterSocioEcon
         bllPredio = new BLLPredio(context);
         predios = bllPredio.getAll();
 
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "+actEcoList.toString());
-        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "+predios.toString());
+//        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "+actEcoList.toString());
+//        System.out.println("$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$$ "+predios.toString());
     }
 
     @Override
@@ -115,6 +115,8 @@ public class AdapterSocioEconomico extends RecyclerView.Adapter<AdapterSocioEcon
 
 
     }
+
+
 
     public boolean existe(List<Predio> predios1,String id){
 

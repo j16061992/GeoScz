@@ -56,6 +56,7 @@ public class AdapterDistrito extends RecyclerView.Adapter<AdapterDistrito.Distri
 
     @Override
     public void onBindViewHolder(final AdapterDistrito.DistritoViewHolder distritoViewHolder, final int i) {
+
             distritoViewHolder.tv_adapter_distrito.setText(distritoList.get(i).getNombre());
             distritoViewHolder.rl_distritos.setOnClickListener(new View.OnClickListener() {
                 @Override

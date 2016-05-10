@@ -11,10 +11,16 @@ import java.util.List;
 public class ListaCoordenadas {
 
     int id;
+    String uv;
     List<LatLng> listaPuntos;
 
     public ListaCoordenadas(int id, List<LatLng> listaPuntos) {
         this.id = id;
+        this.listaPuntos = listaPuntos;
+    }
+
+    public ListaCoordenadas(String uv, List<LatLng> listaPuntos) {
+        this.uv = uv;
         this.listaPuntos = listaPuntos;
     }
 

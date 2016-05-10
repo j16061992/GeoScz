@@ -1,5 +1,6 @@
 package jc.com.geoscz.iu;
 
+import android.content.Intent;
 import android.support.v4.app.FragmentManager;
 import android.support.v4.app.FragmentTransaction;
 import android.support.v7.app.AppCompatActivity;
@@ -35,6 +36,12 @@ public class MainActivity extends AppCompatActivity implements NotificarPredios{
     List<Uvs> uvsList;
     List<Categoria> categoriaList;
 
+    public static String a="";
+    public static String b="";
+    public static String c="";
+    public static String d="";
+    public static String e="";
+
     public static List<String> OPCIONES_ELEGIDAS = new LinkedList<>();
 
     @Override
@@ -59,9 +66,10 @@ public class MainActivity extends AppCompatActivity implements NotificarPredios{
         btn_estadisticas.setOnClickListener(new View.OnClickListener() {
             @Override
             public void onClick(View v) {
-                replaceFragment(FRAGMENT_ESTADISTICA);
-                ThreadDistritos threadDistritos = new ThreadDistritos(MainActivity.this);
-                threadDistritos.execute();
+                startActivity(new Intent(MainActivity.this,ChartTortaActivity.class));
+//                replaceFragment(FRAGMENT_ESTADISTICA);
+//                ThreadDistritos threadDistritos = new ThreadDistritos(MainActivity.this);
+//                threadDistritos.execute();
             }
         });
 
@@ -122,7 +130,7 @@ public class MainActivity extends AppCompatActivity implements NotificarPredios{
 
     @Override
     public void notificaPredio() {
-        Log.d("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ","KKKKKK");
+//        Log.d("+++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++++ ","KKKKKK");
         replaceFragment(FRAGMENT_MAP);
     }
 }

@@ -233,7 +233,7 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
 
     @Override
     public void onLocationChanged(Location location) {
-        adicionarMarcadorMapa(location.getLatitude(), location.getLongitude());
+        adicionarMarcadorMapa(location.getLatitude(), location.getLongitude(),"Mi Posición Actual");
         detenerGPS();
 
     }
@@ -248,13 +248,26 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         rectangulo.strokeWidth(grosor);
         rectangulo.strokeColor(color);
         mMap.addPolygon(rectangulo);
+        LatLng lng = listaPuntos.get(listaPuntos.size()-1);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(lng, 12F);
+        mMap.animateCamera(cu);
     }
 
     @Override
     public void onConnectionFailed(ConnectionResult connectionResult) {
         Log.i("onConnectionFailed", "Connection failed: ConnectionResult.getErrorCode() = " + connectionResult.getErrorCode());
     }
-    private void adicionarMarcadorMapa(double latitude, double longitude) {
+    private void adicionarMarcadorMapa(double latitude, double longitude,String mensaje) {
+        MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title(mensaje);
+        marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
+        // adding marker
+//        mMap.clear();
+        mMap.addMarker(marker);
+        CameraUpdate cu = CameraUpdateFactory.newLatLngZoom(new LatLng(latitude, longitude), 16F);
+        mMap.animateCamera(cu);
+    }
+
+    private void adicionarMarcadorMapaSinPosicionar(double latitude, double longitude) {
         MarkerOptions marker = new MarkerOptions().position(new LatLng(latitude, longitude)).title("Mi posición actual");
         marker.icon(BitmapDescriptorFactory.defaultMarker(BitmapDescriptorFactory.HUE_ROSE));
         // adding marker
@@ -273,6 +286,8 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
     @Override
     public void notificaUv(Uvs uvs) {
         Log.d("FFFF","---------------------------------------------------------------------------------------- JULIO CESAR : "+uvs.toString());
+        ThreadUvs uvs1 =new ThreadUvs(context,uvs.getET_UV());
+        uvs1.execute();
     }
 
 
@@ -342,6 +357,80 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
             super.onPostExecute(aVoid);
             distritos.add(new ListaCoordenadas(id,list));
             dibujarPoligono(list,Color.GREEN,5);
+//            dibujarPoligono(list,Color.parseColor("#9b1086"),5);
+        }
+
+
+    }
+
+
+//    ------------------------------------------------------TRAE DISTRITOS------------------------------------------------------------------
+
+    public class ThreadUvs extends AsyncTask <Void, Void, Void>{
+
+        String respuesta = "";
+        Context context;
+        String uv;
+        List<LatLng> list = new LinkedList<>();
+
+        public ThreadUvs(Context context,String uv)
+        {
+            this.context = context;
+            this.uv= uv;
+        }
+
+
+
+        @Override
+        protected Void doInBackground(Void... params) {
+            String serverUrl = "http://192.168.43.200/Hackaton/service/getUvs.php";
+
+            InputStream inputStream = null;
+
+            try {
+                HttpClient httpClient = new DefaultHttpClient();
+//
+                HttpPost httpPost = new HttpPost(serverUrl);
+                List<NameValuePair> parms = new ArrayList<NameValuePair>();
+                parms.add(new BasicNameValuePair("id", uv ));
+                httpPost.setEntity(new UrlEncodedFormEntity(parms));
+
+                HttpResponse response = httpClient.execute(httpPost);
+                HttpEntity entity = response.getEntity();
+
+                respuesta = EntityUtils.toString(entity);
+
+                Log.d("-------------------------------------------------------- RESPONDE  ",respuesta);
+
+
+
+                JSONArray jArray = new JSONArray(respuesta);
+                for(int i=0; i<jArray.length(); i++){
+                    JSONObject json_data = jArray.getJSONObject(i);
+                    list.add(new LatLng(json_data.getDouble("longitud"),json_data.getDouble("latitud")));
+//                Log.i("log_tag", "****************************************************  latitud" + json_data.getDouble("latitud") +
+//                                ", longitud" + json_data.getDouble("longitud")
+//                );
+                }
+            } catch (Exception e) {
+                Log.d("InputStream", e.getLocalizedMessage());
+            }
+
+            return null;
+        }
+
+        @Override
+        protected void onPreExecute() {
+            super.onPreExecute();
+
+        }
+
+        @Override
+        protected void onPostExecute(Void aVoid) {
+            super.onPostExecute(aVoid);
+            distritos.add(new ListaCoordenadas(uv,list));
+            dibujarPoligono(list,Color.BLUE,4);
+//            dibujarPoligono(list,Color.parseColor("#9b1086"),5);
         }
 
 
@@ -368,24 +457,30 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         protected Void doInBackground(Void... params) {
             String serverUrl = "http://192.168.43.200/Hackaton/service/getPredios.php";
 
-            String a="851101";
+            String a="";
             String b="";
             String c="";
             String d="";
-            String f="851104";
+            String f="";
 
-//            for (int i = 0; i < list.size(); i++) {
-//
-////                System.out.println("****************************************************************************** "+MainActivity.OPCIONES_ELEGIDAS.get(i));
-//                switch (i){
-//                    case 0 : a =  list.get(i).getSubClase();break;
-//                    case 1 : b =  list.get(i).getSubClase();break;
-//                    case 2 : c =  list.get(i).getSubClase();break;
-//                    case 3 : d =  list.get(i).getSubClase();break;
-//                    case 4 : f =  list.get(i).getSubClase();break;
-//                }
-//
-//            }
+            for (int i = 0; i < seleccionados.size(); i++) {
+
+                if(i == 1){
+                    a =  seleccionados.get(i).getSubClase();
+                }
+                if(i ==2 ){
+                    b =  seleccionados.get(i).getSubClase();
+                }
+                if(i == 3){
+                    c =  seleccionados.get(i).getSubClase();
+                }
+                if(i == 4){
+                    d =  seleccionados.get(i).getSubClase();
+                }
+                if(i == 5){
+                    f =  seleccionados.get(i).getSubClase();
+                }
+            }
 
 
             try {
@@ -452,8 +547,11 @@ public class MapFragment extends Fragment implements GoogleApiClient.ConnectionC
         protected void onPostExecute(Void aVoid) {
             super.onPostExecute(aVoid);
 
+            String servicios = "Servicios [";
             for (int i = 0; i < datosList.size(); i++) {
-                adicionarMarcadorMapa(datosList.get(i).getLongitud(),datosList.get(i).getLatitud());
+                servicios = servicios +datosList.get(i).agua;
+
+                adicionarMarcadorMapa(datosList.get(i).getLongitud(),datosList.get(i).getLatitud(),servicios);
             }
 
 

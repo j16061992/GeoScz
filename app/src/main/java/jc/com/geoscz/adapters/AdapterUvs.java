@@ -45,14 +45,22 @@ public class AdapterUvs extends RecyclerView.Adapter<AdapterUvs.DistritoViewHold
             distritoViewHolder.rl_uvs.setOnClickListener(new View.OnClickListener() {
                 @Override
                 public void onClick(View v) {
-                    if(distritoViewHolder.cb_uvs.isChecked()){
+                    if (distritoViewHolder.cb_uvs.isChecked()) {
                         distritoViewHolder.cb_uvs.setChecked(false);
-                        notificaUv.notificaUv(uvsList.get(i));
-                    }else {
+                    } else {
                         distritoViewHolder.cb_uvs.setChecked(true);
+                        notificaUv.notificaUv(uvsList.get(i));
                     }
                 }
             });
+
+        distritoViewHolder.rl_uvs.setOnClickListener(new View.OnClickListener() {
+            @Override
+            public void onClick(View v) {
+
+            }
+        });
+
 
     }
 

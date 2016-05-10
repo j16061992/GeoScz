@@ -4,7 +4,7 @@
     android:layout_width="match_parent"
     android:layout_height="match_parent"
     tools:context=".MainActivity"
-    android:background="@color/accent_material_light">
+    android:background="@color/colorSecundaryDark">
 
 
     <LinearLayout
@@ -32,7 +32,8 @@
         <LinearLayout
             android:layout_width="fill_parent"
             android:layout_height="0dp"
-            android:layout_weight="1">
+            android:layout_weight="1"
+            android:background="@color/colorPrimary">
             <LinearLayout
                 android:layout_width="fill_parent"
                 android:layout_height="fill_parent"
@@ -64,7 +65,6 @@
                         android:layout_width="fill_parent"
                         android:layout_height="fill_parent"
                         android:background="@null"
-                        android:scaleType="centerInside"
                         android:src="@mipmap/ic_maps" />
                 </LinearLayout>
 
